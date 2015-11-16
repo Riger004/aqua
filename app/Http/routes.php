@@ -36,20 +36,13 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
 Route::get('home',function(){
-	return view('show.home');
+	return view('home');
 });
 
 
+Route::resource('profiles','profileController');
 
-Route::get('profile', function () {
-    return view('show.profile');
-});  
-
-
-
-
-
-
+Route::get('profiles/{id}', array('as' => 'profile', 'uses' => 'profileController@show'));
 
 
 

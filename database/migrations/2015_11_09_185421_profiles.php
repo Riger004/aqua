@@ -16,6 +16,7 @@ class Profiles extends Migration
         Schema::create('profile',function(Blueprint $table){
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->string('photo')->nullable();
             $table->string('about')->nullable();
             $table->string('employment')->nullable();
             $table->string('education')->nullable();

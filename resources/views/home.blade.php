@@ -26,12 +26,12 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active" id="selected"><a href="/Home">Home<span class="sr-only">(current)</span></a></li>
-          <li ><a href="/write">write</a></li>
+          <li  ><a href="/home">Home<span class="sr-only">(current)</span></a></li>
+          <li ><a href="#">write</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Name <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/profile">Proflie</a></li>
+              <li><a href="/profiles/create">Proflie</a></li>
               <li><a href="#">Blogs</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Settings</a></li>
@@ -57,7 +57,7 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right" >
-          <li><a href="#">Logout</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
           
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -66,7 +66,9 @@
 
 <!-- Button trigger modal -->
 
-
+  <div class="container">
+    @yield('content')
+  </div>
 
 
 

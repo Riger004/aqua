@@ -5756,11 +5756,20 @@ button.close {
 body {
   background-color: white; }
 
-#selected a {
-  color: red; }
+.profile-pic {
+  display: block;
+  max-width: 350px;
+  margin: 0 auto 30px;
+  border-radius: 100%; }
+
+.profile-pic-text {
+  text-align: center; }
+
+#m_button {
+  float: right; }
 
 #ask {
-  color: blue;
+  color: red;
   font-weight: bold; }
 
 nav {
