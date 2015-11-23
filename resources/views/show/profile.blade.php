@@ -1,11 +1,13 @@
-@extends('home')
-	<title>profile</title>
+@extends('layout')
+<title>profile</title>
 @section('content')
 <h1>add details about what you know</h1>
 <div class="row">
 	<div  >
-		<img class="profile-pic" src="" alt="set you pic">
-		<H3 class="profile-pic-text">Name</H3>
+		@if(isset($user->photo) And isset($person->name) )
+		<img class="profile-pic" src="{{$user->photo}}" alt="set you pic">
+		<H3 class="profile-pic-text">{{$person->name}}</H3>
+		@endif
 	</div>
 	<hr>
 	<div class="col-xs-3">
@@ -71,6 +73,9 @@
 
 <hr>
 
+
+@if(isset($person) OR Auth::user()->id==$person->id)
+ 
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="m_button">
 	Change your profile
 </button>
@@ -117,10 +122,12 @@
 					</div>
 
 					<div class="form-group">
-						<label for="description">bidescriptiono:</label></br>
+						<label for="description">descriptiono:</label></br>
 						<textarea type="textarea" name="description" id="description" class="form-control" row="10" value="{{old('description')}}" required></textarea>
 
 					</div>
+
+
 
 
 				</div>
@@ -130,10 +137,42 @@
 				</div>
 			</form>
 
+			<h2>Add your photos</h2>
+			@if(isset($user->id))
+			<form id="file" action="/profiles/{{$user->id}}/photos" name="file" method="POST" class="dropzone">
+				{{ csrf_field() }}
+			</form>
+			@endif
+
 		</div>
 	</div>
 </div>
 
+@endif
 
+@stop
+
+
+@section('scripts.footer')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/dropzone.js"></script>
+
+<script>
+
+
+Dropzone.options.file={
+
+	
+
+	maxFileSize: 3,
+
+	maxFiles: 1,
+
+	acceptedFiles: '.jpg, .jpeg, .png, .bmp'
+
+};
+
+
+</script>
 
 @stop

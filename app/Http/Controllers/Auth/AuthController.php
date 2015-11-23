@@ -7,6 +7,9 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Socialite;
+use Auth;
+
 
 class AuthController extends Controller
 {
@@ -61,6 +64,36 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+
+      public function redirectToProvider_google()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Obtain the user information from google.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback_google()
+    {
+        $user = Socialite::driver('google')->user();
+
+        $data=['name'=>$user->name,'email'=>$user->email, 'password'=>$user->token];
+
+        $userDB=User::where('email',$user->email)->first();
+
+        if(!is_null($userDB)){
+            Auth::Login($userDB);
+        }else{
+            Auth::Login($this->create($data));
+        }
+
+        return redirect('/home');
+
+        // $user->token;
     }
 
     protected $redirectPath = '/home';

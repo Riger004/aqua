@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+    'client_id' => '609696694807-m61a903qcg4t42n7tbqkugf5a3n7sl5a.apps.googleusercontent.com',
+    'client_secret' => 'aKOUaKI09Rls5xhZCzqFExIK',
+    'redirect' => 'http://aqua.app:8000/auth/google/callback',
+    ],
+
 ];

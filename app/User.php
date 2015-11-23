@@ -42,4 +42,17 @@ class User extends Model implements AuthenticatableContract,
          return $this->hasOne('App\profiles','user_id');
     }
 
+    public function user_topic(){
+        return $this->hasMany('App\topic','user_id');
+    }
+
+
+    public function user_question(){
+        return $this->hasMany('App\question','user_id');
+    }
+
+    public function user_answer(){
+        return $this->hasMany('App\answer','user_id');
+    }
+
 }

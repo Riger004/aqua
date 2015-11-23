@@ -9,13 +9,20 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\profiles;
 use App\User;
+use App\topic;
+use App\question;
+use DB;
 
-class profileController extends Controller
+class questionController extends Controller
 {
+
 
     public function __construct(){
         $this->middleware('auth');
     }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -32,25 +39,10 @@ class profileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
+        //
 
-
-
-        $user=Auth::user();
-
-        $check=profiles::where('user_id',$user['id'])->count();
-
-       
-        if($check===1){
-            return redirect()->route('profile', ['id'=>$user["id"]]);
-        }else{
-            $person='new user';
-           return view('show.profile',compact('person'));
-            //return 'testing';
-        }
-
-     
-}
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -62,35 +54,49 @@ class profileController extends Controller
     {
         //
 
-       $user=Auth::user();
+        $user=Auth::user();
 
-        
+        $topic_exist=topic::where('question_topic',$request['question_topic'])->count();
 
-       $user->profile()->create($request->all());
+        if($topic_exist!==1){
 
-          return redirect()->route('profile', ['id'=>$user["id"]]);
-   }
+         $profile=User::where('id',$user['id'])->first();
+         $profile->user_topic()->create($request->all());
+
+           //$topic=topic::where('profile_id',$user['id'])->count();
+
+     }
+
+     $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
 
 
-   public function addPhoto(Request $request){
 
-       $file=$request->file('file');
+       //return $topic->id;
 
-       $name=time().$file->getClientOriginalName();
+     $question=new question;
 
-       $file->move('flyers/photos',$name);
+     $question->user_id=$user['id'];
 
-       $user=Auth::user();
 
-       $profile=profiles::Exist($user['id'])->get()->first();
 
-       $profile->photo="/flyers/photos/{$name}";
+     $question->topic_id=$topic->id;
+     if($request->anonymously==='Yes'){
+        $question->anonymously=1;
+    }else{
+        $question->anonymously=1;
+    }
+    $question->question=$request->question;
 
-       $profile->save();
+    $question->details=$request->details;
 
-        return redirect()->route('profile', ['id'=>$user["id"]]);
-        
-   }
+    $question->save();
+
+        //$topic->question_topic()->create($request->all());
+
+    return 'done';
+
+
+}
 
     /**
      * Display the specified resource.
@@ -98,17 +104,16 @@ class profileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $question=DB::select('select name,anonymously,question,details from users inner join questions on users.id=questions.user_id ORDER BY questions.created_at');
 
 
-       $user=profiles::where('user_id',$id)->first();
+       
 
-       $person=User::where('id',$id)->first();
-
-        return view('show.profile',compact('user','person'));
-    }
+       return view('show.home',compact('question'));
+     
+}
 
     /**
      * Show the form for editing the specified resource.

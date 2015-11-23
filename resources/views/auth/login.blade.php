@@ -43,7 +43,7 @@
             <h1 class="text-center login-title">Or use social account</h1>
             <a  href="#" class="btn btn-lg btn-primary btn-block">
                     facebook</a>
-                    <a href="#" class="btn btn-lg btn-primary btn-block" >
+                    <a href="/auth/google" class="btn btn-lg btn-primary btn-block" >
                     Gmail</a>
             <a href="/auth/register" class="text-center new-account">Create an account </a>
         </div>

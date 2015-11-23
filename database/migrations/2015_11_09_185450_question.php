@@ -15,7 +15,7 @@ class Question extends Migration
         //
         Schema::create('questions',function(Blueprint $table){
             $table->increments('íd');
-            $table->integer('profile_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('topic_id')->unsigned();
             $table->boolean('anonymously');
             $table->text('question');

@@ -34,17 +34,25 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+//auth for google
+Route::get('auth/google', 'Auth\AuthController@redirectToProvider_google');
+Route::get('auth/google/callback', 'Auth\AuthController@handleProviderCallback_google');
 
-Route::get('home',function(){
-	return view('home');
-});
+
+/*Route::get('home',function(){
+	return view('layout');
+});*/
 
 
 Route::resource('profiles','profileController');
 
+Route::resource('questions','questionController');
+
 Route::get('profiles/{id}', array('as' => 'profile', 'uses' => 'profileController@show'));
 
+Route::post('profiles/{id}/photos','profileController@addPhoto');
 
+Route::get('home','questionController@show');
 
 
 

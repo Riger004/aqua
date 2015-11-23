@@ -16,7 +16,7 @@ class Answer extends Migration
         Schema::create('answers',function(Blueprint $table){
             $table->increments('id');
             $table->integer('question_id')->unsigned();
-            $table->integer('profile_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->longText('answer');
             $table->boolean('preffered')->nullabe();
             $table->integer('upvoted')->nullabe();

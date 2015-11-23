@@ -24,4 +24,46 @@ class profiles extends Model
     	return $query->where(compact('user_id'));
     }
 
+
+    //this is the connection between profile table and the topic table
+    //has a relationship of one to many
+
+   
+
+   
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
