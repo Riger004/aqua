@@ -74,7 +74,7 @@
 <hr>
 
 
-@if(isset($person) OR Auth::user()->id==$person->id)
+@if($person=='new user' OR Auth::user()->id==$person->id)
  
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="m_button">
 	Change your profile

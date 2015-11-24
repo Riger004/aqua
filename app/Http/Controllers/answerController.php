@@ -13,15 +13,13 @@ use App\topic;
 use App\question;
 use DB;
 
-class questionController extends Controller
+class answerController extends Controller
 {
 
 
-    public function __construct(){
+       public function __construct(){
         $this->middleware('auth');
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -41,7 +39,6 @@ class questionController extends Controller
     public function create()
     {
         //
-
     }
 
     /**
@@ -53,50 +50,7 @@ class questionController extends Controller
     public function store(Request $request)
     {
         //
-
-        $user=Auth::user();
-
-        $topic_exist=topic::where('question_topic',$request['question_topic'])->count();
-
-        if($topic_exist!==1){
-
-           $profile=User::where('id',$user['id'])->first();
-           $profile->user_topic()->create($request->all());
-
-           //$topic=topic::where('profile_id',$user['id'])->count();
-
-       }
-
-       $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
-
-
-
-       //return $topic->id;
-
-       $question=new question;
-
-       $question->user_id=$user['id'];
-
-
-
-       $question->topic_id=$topic->id;
-       if($request->anonymously==='Yes'){
-        $question->anonymously=1;
-    }else{
-        $question->anonymously=0;
     }
-    $question->question=$request->question;
-
-    $question->details=$request->details;
-
-    $question->save();
-
-        //$topic->question_topic()->create($request->all());
-
-    return 'done';
-
-
-}
 
     /**
      * Display the specified resource.
@@ -104,27 +58,10 @@ class questionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        $question=DB::select('select name,anonymously,question,details from users inner join questions on users.id=questions.user_id ORDER BY questions.created_at');
-
-
-
-       // return $question;
-        return view('show.home',compact('question'));
-
+        //
     }
-
-    public function display($id){
-
-        $id=urldecode($id);
-
-        $question=question::where('question',$id)->get()->first();
-        return $question;
-        //return $id;
-    }
-
-
 
     /**
      * Show the form for editing the specified resource.

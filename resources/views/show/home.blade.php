@@ -18,8 +18,15 @@
         <div class="col-xs-8">
           @if(isset($question))
           @foreach($question as $qu)
-          <h3>{{$qu->question}}</h3>
-          <p>posted by {{$qu->name}}</p>
+          <h3><a href="/question/<?php echo urlencode($qu->question) ?>")>
+          {{$qu->question}}</h3></a>
+          @if($qu->anonymously==0)
+          <p>posted by {{$qu->name}}  </p>
+          @else
+          <p>posted anonymously</p>
+          @endif
+          <p>Details: {{$qu->details}}</p>
+          
           <hr>
         @endforeach
         @endif

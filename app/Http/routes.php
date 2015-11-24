@@ -48,11 +48,15 @@ Route::resource('profiles','profileController');
 
 Route::resource('questions','questionController');
 
+Route::resource('answers','answerController');
+
 Route::get('profiles/{id}', array('as' => 'profile', 'uses' => 'profileController@show'));
 
 Route::post('profiles/{id}/photos','profileController@addPhoto');
 
 Route::get('home','questionController@show');
+
+Route::get('question/{question}','questionController@display');
 
 
 
