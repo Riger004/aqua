@@ -44,11 +44,15 @@ Route::get('auth/google/callback', 'Auth\AuthController@handleProviderCallback_g
 });*/
 
 
+
 Route::resource('profiles','profileController');
 
 Route::resource('questions','questionController');
 
-Route::resource('answers','answerController');
+Route::resource('questions','questionController');
+
+Route::post('answers/{id}','answerController@save');
+
 
 Route::get('profiles/{id}', array('as' => 'profile', 'uses' => 'profileController@show'));
 
@@ -56,7 +60,10 @@ Route::post('profiles/{id}/photos','profileController@addPhoto');
 
 Route::get('home','questionController@show');
 
-Route::get('question/{question}','questionController@display');
+Route::get('question/{question}',array('as'=>'answer','uses'=>'questionController@display'));
+
+Route::post('vote/{question}/{answer}','answerController@upvoted');
+Route::post('downvote/{question}/{answer}','answerController@downvoted');
 
 
 

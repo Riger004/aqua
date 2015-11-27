@@ -11,6 +11,7 @@ use App\profiles;
 use App\User;
 use App\topic;
 use App\question;
+use App\answer;
 use DB;
 
 class questionController extends Controller
@@ -60,27 +61,27 @@ class questionController extends Controller
 
         if($topic_exist!==1){
 
-           $profile=User::where('id',$user['id'])->first();
-           $profile->user_topic()->create($request->all());
+         $profile=User::where('id',$user['id'])->first();
+         $profile->user_topic()->create($request->all());
 
            //$topic=topic::where('profile_id',$user['id'])->count();
 
-       }
+     }
 
-       $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
+     $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
 
 
 
        //return $topic->id;
 
-       $question=new question;
+     $question=new question;
 
-       $question->user_id=$user['id'];
+     $question->user_id=$user['id'];
 
 
 
-       $question->topic_id=$topic->id;
-       if($request->anonymously==='Yes'){
+     $question->topic_id=$topic->id;
+     if($request->anonymously==='Yes'){
         $question->anonymously=1;
     }else{
         $question->anonymously=0;
@@ -117,12 +118,28 @@ class questionController extends Controller
 
     public function display($id){
 
-        $id=urldecode($id);
+        //echo ($id);
+
+       $id=urldecode($id);
 
         $question=question::where('question',$id)->get()->first();
-        return $question;
-        //return $id;
+
+
+        $topic=topic::where('id',$question->topic_id)->get()->first();
+
+        $answer=answer::where('question',$id)->get();
+
+        if($answer!==null){
+           $name=DB::select('select name, users.id,answer, question, preffered, upvoted , downvoted from users inner join answers on users.id=answers.user_id');
+
+        return view('show.answer',compact('question','topic','name'));
+           
+         //   return $answer;
+       }else{
+        return view('show.answer',compact('question','topic'));
     }
+        //return $id;
+}
 
 
 

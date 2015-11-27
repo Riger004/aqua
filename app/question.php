@@ -9,7 +9,7 @@ class question extends Model
     //
     protected $table='questions';
 
-    protected $primaryKey='id';
+    protected $primaryKey ='id';
 
     protected $fillable=['anonymously','question','details'];
 
@@ -23,13 +23,14 @@ class question extends Model
     }
 
     public function question_answer(){
-    	return $this->hanMany('App\answer','question_id');
+    	return $this->hasMany('App\answer','question_id');
     }
 
 
 
-
-
+    public function getKey(){
+        return $this->primaryKey;
+    }
 
 
 
