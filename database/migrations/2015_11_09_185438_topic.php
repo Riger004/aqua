@@ -16,6 +16,7 @@ class Topic extends Migration
         Schema::create('topics',function(Blueprint $table){
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('count')->nullable();
             $table->string('question_topic');
             $table->timestamps();
 

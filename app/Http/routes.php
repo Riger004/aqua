@@ -58,12 +58,14 @@ Route::get('profiles/{id}', array('as' => 'profile', 'uses' => 'profileControlle
 
 Route::post('profiles/{id}/photos','profileController@addPhoto');
 
-Route::get('home','questionController@show');
+Route::get('home',array('as'=>'home_ques','uses'=>'questionController@show'));
 
 Route::get('question/{question}',array('as'=>'answer','uses'=>'questionController@display'));
 
 Route::post('vote/{question}/{answer}','answerController@upvoted');
 Route::post('downvote/{question}/{answer}','answerController@downvoted');
+
+Route::get('topics/{topic}','questionController@showAllTopics');
 
 
 

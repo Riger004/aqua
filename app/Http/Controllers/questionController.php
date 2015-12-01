@@ -61,27 +61,30 @@ class questionController extends Controller
 
         if($topic_exist!==1){
 
-         $profile=User::where('id',$user['id'])->first();
-         $profile->user_topic()->create($request->all());
+           $profile=User::where('id',$user['id'])->first();
+           $profile->user_topic()->create($request->all());
 
            //$topic=topic::where('profile_id',$user['id'])->count();
 
-     }
+       }
 
-     $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
+       $topic=topic::where('question_topic',$request['question_topic'])->get()->first();
+
+       $count=$topic->count+1;
 
 
+       $affected = DB::update('update topics set count = :vote where id = :id', ['vote'=>$count,'id'=>$topic->id]);
 
        //return $topic->id;
 
-     $question=new question;
+       $question=new question;
 
-     $question->user_id=$user['id'];
+       $question->user_id=$user['id'];
 
 
 
-     $question->topic_id=$topic->id;
-     if($request->anonymously==='Yes'){
+       $question->topic_id=$topic->id;
+       if($request->anonymously==='Yes'){
         $question->anonymously=1;
     }else{
         $question->anonymously=0;
@@ -94,7 +97,7 @@ class questionController extends Controller
 
         //$topic->question_topic()->create($request->all());
 
-    return 'done';
+    return redirect()->action('questionController@show');
 
 
 }
@@ -109,10 +112,10 @@ class questionController extends Controller
     {
         $question=DB::select('select name,anonymously,question,details from users inner join questions on users.id=questions.user_id ORDER BY questions.created_at');
 
+        $topic_count=DB::select('select question_topic from topics order by count desc');
 
 
-       // return $question;
-        return view('show.home',compact('question'));
+        return view('show.home',compact('question','topic_count'));
 
     }
 
@@ -120,26 +123,45 @@ class questionController extends Controller
 
         //echo ($id);
 
-       $id=urldecode($id);
+     $id=urldecode($id);
 
-        $question=question::where('question',$id)->get()->first();
+     $question=question::where('question',$id)->get()->first();
 
 
-        $topic=topic::where('id',$question->topic_id)->get()->first();
+     $topic=topic::where('id',$question->topic_id)->get()->first();
 
-        $answer=answer::where('question',$id)->get();
+     $answer=answer::where('question',$id)->get();
 
-        if($answer!==null){
-           $name=DB::select('select name, users.id,answer, question, preffered, upvoted , downvoted from users inner join answers on users.id=answers.user_id');
+     if($answer!==null){
+         $name=DB::select('select name, users.id,answer, question, preffered, upvoted , downvoted from users inner join answers on users.id=answers.user_id');
 
-        return view('show.answer',compact('question','topic','name'));
-           
+         return view('show.answer',compact('question','topic','name'));
+
          //   return $answer;
-       }else{
+     }else{
         return view('show.answer',compact('question','topic'));
     }
         //return $id;
 }
+
+    
+    public function showAllTopics($topic){
+
+        $topic=urldecode($topic);
+
+        $topic_id=DB::select('select id from topics where question_topic=:qu',['qu'=>$topic]);
+
+        $id;
+        foreach ($topic_id as $key ) {
+            $id=$key->id;
+        }
+
+        $question=DB::select('select DISTINCT question from questions where questions.topic_id=:id',['id'=>$id]);
+
+        return view('show.topic',compact('question','topic'));
+
+    }
+
 
 
 
